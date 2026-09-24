@@ -8,11 +8,13 @@ using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+app.UseStaticFiles();
 
 var arbol = new ArbolLibros();
 var categorias = new ArbolCategorias();
 
 app.MapGet("/", () => Results.Content("""
+    <link rel="stylesheet" href="/estilos.css">
     <h1>Catálogo de libros</h1>
     <h2>Registrar libro</h2>
     <form method="post" action="/libros">
@@ -172,6 +174,7 @@ app.MapGet("/libros/mayor", () =>
 app.MapGet("/libros", () =>
 {
     var html = new StringBuilder(
+        "<link rel='stylesheet' href='/estilos.css'>" +
         "<h1>Libros ordenados por ISBN</h1><ol>");
 
     arbol.RecorrerEnOrden(libro =>
@@ -225,7 +228,9 @@ app.MapPost("/categorias", async (HttpRequest request) =>
 
 app.MapGet("/categorias", () =>
 {
-    var html = new StringBuilder("<h1>Categorías</h1>");
+    var html = new StringBuilder(
+        "<link rel='stylesheet' href='/estilos.css'>" +
+        "<h1>Categorías</h1>");
 
     if (categorias.PrimeraRaiz == null)
         html.Append("<p>Aún no hay categorías.</p>");
