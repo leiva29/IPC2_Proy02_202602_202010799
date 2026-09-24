@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <listaCategorias>
+    <categoria>Literatura</categoria>
+    <categoria padre="Literatura">Novela</categoria>
+    <categoria>Ciencia</categoria>
+  </listaCategorias>
+  <listaLibros>
+    <libro>
+      <ISBN>200</ISBN>
+      <titulo>Libro de ejemplo</titulo>
+      <autor>Autor de ejemplo</autor>
+      <categoria>Novela</categoria>
+    </libro>
+  </listaLibros>
+</config>
