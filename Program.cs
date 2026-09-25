@@ -13,7 +13,7 @@ app.UseStaticFiles();
 var arbol = new ArbolLibros();
 var categorias = new ArbolCategorias();
 
-app.MapGet("/", () => Results.Content("""
+app.MapGet("/", () => Pagina("""
     <link rel="stylesheet" href="/estilos.css">
     <h1>Catálogo de libros</h1>
     <h2>Registrar libro</h2>
@@ -78,6 +78,8 @@ app.MapGet("/", () => Results.Content("""
         <button type="submit">Vaciar catálogo</button>
     </form>
 
+    <p><a href="/ayuda">Ayuda y documentación</a></p>
+
     """, "text/html; charset=utf-8"));
 
 app.MapPost("/libros", async (HttpRequest request) =>
@@ -111,7 +113,7 @@ app.MapPost("/libros", async (HttpRequest request) =>
     if (!arbol.Agregar(libro))
         return Results.Conflict("Ya existe un libro con ese ISBN.");
 
-    return Results.Content(
+    return Pagina(
         "<p>Libro registrado correctamente.</p><a href='/'>Volver</a>",
         "text/html; charset=utf-8");
 });
@@ -121,11 +123,11 @@ app.MapGet("/buscar", (int isbn) =>
     Libro? libro = arbol.Buscar(isbn);
 
     if (libro == null)
-        return Results.Content(
+        return Pagina(
             "<p>No se encontró ese ISBN.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
-    return Results.Content($"""
+    return Pagina($"""
         <h1>{WebUtility.HtmlEncode(libro.Titulo)}</h1>
         <p>ISBN: {libro.ISBN}</p>
         <p>Autor: {WebUtility.HtmlEncode(libro.Autor)}</p>
@@ -140,11 +142,11 @@ app.MapGet("/libros/menor", () =>
     Libro? libro = arbol.ObtenerMenor();
 
     if (libro == null)
-        return Results.Content(
+        return Pagina(
             "<p>El catálogo está vacío.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
-    return Results.Content($"""
+    return Pagina($"""
         <h1>Libro con menor ISBN</h1>
         <p>ISBN: {libro.ISBN}</p>
         <p>Título: {WebUtility.HtmlEncode(libro.Titulo)}</p>
@@ -158,11 +160,11 @@ app.MapGet("/libros/mayor", () =>
     Libro? libro = arbol.ObtenerMayor();
 
     if (libro == null)
-        return Results.Content(
+        return Pagina(
             "<p>El catálogo está vacío.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
-    return Results.Content($"""
+    return Pagina($"""
         <h1>Libro con mayor ISBN</h1>
         <p>ISBN: {libro.ISBN}</p>
         <p>Título: {WebUtility.HtmlEncode(libro.Titulo)}</p>
@@ -190,7 +192,7 @@ app.MapGet("/libros", () =>
 
     html.Append("</ol><a href='/'>Volver</a>");
 
-    return Results.Content(html.ToString(), "text/html; charset=utf-8");
+    return Pagina(html.ToString(), "text/html; charset=utf-8");
 });
 
 app.MapPost("/libros/eliminar", async (HttpRequest request) =>
@@ -201,11 +203,11 @@ app.MapPost("/libros/eliminar", async (HttpRequest request) =>
         return Results.BadRequest("Ingresa un ISBN válido.");
 
     if (!arbol.Eliminar(isbn))
-        return Results.Content(
+        return Pagina(
             "<p>No existe un libro con ese ISBN.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
-    return Results.Content(
+    return Pagina(
         "<p>Libro eliminado correctamente.</p><a href='/'>Volver</a>",
         "text/html; charset=utf-8");
 });
@@ -217,11 +219,11 @@ app.MapPost("/categorias", async (HttpRequest request) =>
     string padre = datos["padre"].ToString();
 
     if (!categorias.Agregar(nombre, padre))
-        return Results.Content(
+        return Pagina(
             "<p>No se pudo agregar: el nombre ya existe, está vacío o el padre no existe.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
-    return Results.Content(
+    return Pagina(
         "<p>Categoría agregada.</p><a href='/'>Volver</a>",
         "text/html; charset=utf-8");
 });
@@ -238,7 +240,7 @@ app.MapGet("/categorias", () =>
         MostrarCategorias(html, categorias.PrimeraRaiz);
 
     html.Append("<a href='/'>Volver</a>");
-    return Results.Content(html.ToString(), "text/html; charset=utf-8");
+    return Pagina(html.ToString(), "text/html; charset=utf-8");
 });
 
 static void MostrarCategorias(StringBuilder html, NodoCategoria? actual)
@@ -265,7 +267,7 @@ app.MapGet("/categorias/libros", (string nombre) =>
     NodoCategoria? categoria = categorias.Buscar(nombre);
 
     if (categoria == null)
-        return Results.Content(
+        return Pagina(
             "<p>La categoría no existe.</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
 
@@ -303,7 +305,7 @@ app.MapGet("/categorias/libros", (string nombre) =>
 
     html.Append("<a href='/'>Volver</a>");
 
-    return Results.Content(html.ToString(), "text/html; charset=utf-8");
+    return Pagina(html.ToString(), "text/html; charset=utf-8");
 });
 
 app.MapPost("/cargar-xml", async (HttpRequest request) =>
@@ -320,7 +322,7 @@ app.MapPost("/cargar-xml", async (HttpRequest request) =>
         var cargador = new CargadorXml();
         string resultado = cargador.Cargar(contenido, categorias, arbol);
 
-        return Results.Content(
+        return Pagina(
             $"<p>{WebUtility.HtmlEncode(resultado)}</p><a href='/'>Volver</a>",
             "text/html; charset=utf-8");
     }
@@ -383,7 +385,7 @@ app.MapGet("/categorias/grafica", async (string? nombre) =>
         if (proceso.ExitCode != 0)
             return Results.Problem(await errores);
 
-        return Results.Content(await salida, "image/svg+xml");
+        return Pagina(await salida, "image/svg+xml");
     }
     catch (System.ComponentModel.Win32Exception)
     {
@@ -426,7 +428,7 @@ app.MapGet("/categorias/libros/grafica", async (string nombre) =>
         if (proceso.ExitCode != 0)
             return Results.Problem(await errores);
 
-        return Results.Content(await salida, "image/svg+xml");
+        return Pagina(await salida, "image/svg+xml");
     }
     catch (System.ComponentModel.Win32Exception)
     {
@@ -440,9 +442,69 @@ app.MapPost("/inicializar", () =>
     arbol = new ArbolLibros();
     categorias = new ArbolCategorias();
 
-    return Results.Content(
+    return Pagina(
         "<p>El catálogo está vacío.</p><a href='/'>Volver</a>",
         "text/html; charset=utf-8");
+});
+
+static IResult Pagina(
+    string contenido,
+    string tipo = "text/html; charset=utf-8")
+{
+    // Los diagramas de Graphviz deben conservar su formato SVG.
+    if (tipo == "image/svg+xml")
+        return Results.Content(contenido, tipo);
+
+    string documento = $"""
+        <!doctype html>
+        <html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="/estilos.css">
+            <title>Catálogo de libros</title>
+        </head>
+        <body>
+            <main class="panel">
+                {contenido}
+            </main>
+        </body>
+        </html>
+        """;
+
+    return Results.Content(documento, "text/html; charset=utf-8");
+}
+
+app.MapGet("/ayuda", () =>
+{
+    return Results.Content("""
+        <!doctype html>
+        <html lang="es">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="/estilos.css">
+            <title>Ayuda - Catálogo de libros</title>
+        </head>
+        <body>
+            <main class="panel">
+                <h1>Ayuda</h1>
+                <p><strong>Proyecto:</strong> Catálogo jerárquico de libros</p>
+                <p><strong>Estudiante:</strong> Héctor Fernando Leiva Toc</p>
+                <p><strong>Carné:</strong> 202010799</p>
+                <p><strong>Curso:</strong> Introducción a la Programación y Computación 2</p>
+                <p><strong>Sección:</strong> N</p>
+                <p>
+                    <a href="https://github.com/leiva29/IPC2_Proy02_202602_202010799/blob/main/Documentation/Ensayo_Proyecto2_202010799.docx"
+                       target="_blank" rel="noopener noreferrer">
+                        Ver documentación del proyecto
+                    </a>
+                </p>
+                <p><a href="/">Volver al catálogo</a></p>
+            </main>
+        </body>
+        </html>
+        """, "text/html; charset=utf-8");
 });
 
 app.Run();
