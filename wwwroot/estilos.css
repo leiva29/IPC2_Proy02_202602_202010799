@@ -118,3 +118,21 @@ ul ul {
 ul ul li {
     background: #26374b;
 }
+
+.panel {
+    background: #172436;
+    border: 1px solid #344458;
+    border-radius: 18px;
+    padding: 28px;
+    min-height: 180px;
+}
+
+.panel > p:first-child {
+    font-size: 1.2rem;
+}
+
+.panel > a,
+.panel > p + a {
+    display: inline-block;
+    margin-top: 12px;
+}

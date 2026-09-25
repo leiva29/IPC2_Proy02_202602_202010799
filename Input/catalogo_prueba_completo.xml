@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <listaCategorias>
+    <categoria padre="Literatura">Novela</categoria>
+    <categoria padre="Tecnologia">Programacion</categoria>
+    <categoria padre="Novela">Fantasia</categoria>
+    <categoria>Literatura</categoria>
+    <categoria>Tecnologia</categoria>
+    <categoria>Ciencia</categoria>
+    <categoria padre="Ciencia">Astronomia</categoria>
+    <categoria padre="Ciencia">Biologia</categoria>
+    <categoria padre="Tecnologia">Redes</categoria>
+    <categoria padre="Literatura">Poesia</categoria>
+  </listaCategorias>
+  <listaLibros>
+    <libro><ISBN>450</ISBN><titulo>Viaje por la galaxia</titulo><autor>Elena Prado</autor><categoria>Astronomia</categoria></libro>
+    <libro><ISBN>120</ISBN><titulo>El bosque de cristal</titulo><autor>Marina Solis</autor><categoria>Fantasia</categoria></libro>
+    <libro><ISBN>700</ISBN><titulo>Fundamentos de redes</titulo><autor>Carlos Mendez</autor><categoria>Redes</categoria></libro>
+    <libro><ISBN>90</ISBN><titulo>Historias de la ciudad</titulo><autor>Daniel Rios</autor><categoria>Novela</categoria></libro>
+    <libro><ISBN>310</ISBN><titulo>Introduccion a C#</titulo><autor>Lucia Campos</autor><categoria>Programacion</categoria></libro>
+    <libro><ISBN>230</ISBN><titulo>Algoritmos con arboles</titulo><autor>Andrea Torres</autor><categoria>Programacion</categoria></libro>
+    <libro><ISBN>560</ISBN><titulo>La vida microscopica</titulo><autor>Gabriel Flores</autor><categoria>Biologia</categoria></libro>
+    <libro><ISBN>180</ISBN><titulo>Versos de septiembre</titulo><autor>Paula Herrera</autor><categoria>Poesia</categoria></libro>
+    <libro><ISBN>610</ISBN><titulo>Atlas de las estrellas</titulo><autor>Mateo Pineda</autor><categoria>Astronomia</categoria></libro>
+    <libro><ISBN>140</ISBN><titulo>Las puertas del valle</titulo><autor>Marina Solis</autor><categoria>Fantasia</categoria></libro>
+    <libro><ISBN>390</ISBN><titulo>Aplicaciones web con C#</titulo><autor>Lucia Campos</autor><categoria>Programacion</categoria></libro>
+    <libro><ISBN>820</ISBN><titulo>Conexiones digitales</titulo><autor>Carlos Mendez</autor><categoria>Redes</categoria></libro>
+    <libro><ISBN>510</ISBN><titulo>Celulas y ecosistemas</titulo><autor>Gabriel Flores</autor><categoria>Biologia</categoria></libro>
+    <libro><ISBN>75</ISBN><titulo>Relatos del camino</titulo><autor>Daniel Rios</autor><categoria>Novela</categoria></libro>
+    <libro><ISBN>205</ISBN><titulo>Poemas de la tarde</titulo><autor>Paula Herrera</autor><categoria>Poesia</categoria></libro>
+  </listaLibros>
+</config>

@@ -507,4 +507,20 @@ app.MapGet("/ayuda", () =>
         """, "text/html; charset=utf-8");
 });
 
+app.MapGet("/documentacion", () =>
+{
+    string ruta = Path.Combine(
+        app.Environment.ContentRootPath,
+        "Documentation",
+        "Ensayo_Proyecto2_202010799.docx");
+
+    if (!File.Exists(ruta))
+        return Results.NotFound("No se encontró la documentación.");
+
+    return Results.File(
+        ruta,
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "Ensayo_Proyecto2_202010799.docx");
+});
+
 app.Run();
